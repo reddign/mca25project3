@@ -46,7 +46,8 @@
         <button onclick="login(event);">Login</button>
         </form>
         <h1 class="subtitle">New User? Click <a href="register.php">here</a> to register!</h1>
-        <main>
-        </main>
+        <footer>
+            <p>Copyright 2025. All rights reserved.</p>
+        </footer>
     </body>
 </html>

@@ -4,7 +4,7 @@
     color: #a50034;
     text-align: center;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: 30px;
+    font-size: 25px;
 }
 
 body {font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;}
@@ -16,7 +16,7 @@ body {font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;}
 /* Bordered form */
 form {
     border: 3px solid #a50034;
-    padding: 12px;
+    padding: 3px;
     
   }
   
@@ -54,7 +54,7 @@ form {
     /* width: 300px; */
     padding: 76px;
     margin: auto;
-    width: 50%;
+    width: 52%;
     /* border: 3px solid green; */
     /* padding: 10px; */
     

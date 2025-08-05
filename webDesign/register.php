@@ -30,6 +30,12 @@
                 </ul>
             </nav>
         </header>
+        <div>
+        <img class="image" src="images/medieval_knight_face_left.png" width="24%" height="50%" style="float:right; padding-top: 20px;">
+        </div>
+        <div>
+        <img class="image" src="images/medieval_knight_face_right.png" width="24%" height="50%" style="float:left; padding-top: 20px;">
+        </div>
         <div class="container">
         <form id="login" method="post" action="processes/processlogin.php">
         <label for="user" class="fields">Username: </label>

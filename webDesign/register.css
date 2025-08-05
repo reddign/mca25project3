@@ -9,6 +9,9 @@
 
 body {font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;}
 
+.fields {
+    color:#a50034;
+}
 
 /* Bordered form */
 form {
@@ -30,12 +33,13 @@ form {
   /* Set a style for all buttons */
   button {
     background-color: #a50034;
-    color: white;
+    color: f7f7f7;
     padding: 14px 20px;
     margin: 8px 0;
     border: none;
     cursor: pointer;
     width: 100%;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   }
   
   /* Add a hover effect for buttons */
@@ -47,7 +51,7 @@ form {
   /* Add padding to containers */
   .container {
     /* width: 300px; */
-    padding: 66px;
+    padding: 61px;
     margin: auto;
     width: 50%;
     /* border: 3px solid green; */

@@ -1,19 +1,33 @@
 // making a turn in the combat system
 // this code will be integraded into other files later
 
+/*
+TODO: Fix the battle system so that it works with the combat system
+      Fix the end screen so that it sends the player to the home page
+      Fix the player collision with the enemy
+      Fix the Option buttons so that they work with the combat system
+      Take everything out of the console log and put it into the game
+*/
+
+// WARNING: This code is a work in progress and may not function as intended.
+
+
 let canvas = document.querySelector("canvas")
 const graphics = canvas.getContext('2d')
 
 let playerHealth = 100
 let monsterHealth = 100
-let fps = 3
+let fps = 1
 
 movingUp = false
 movingDown = false
 movingLeft = false
 movingRight = false
+askedPlayAgain = false
 
-
+let enemyX = 100
+let enemyY = 100 
+let enemyRadius = 10 
 
 let playerX = canvas.width / 2 // Initial X position
 let playerY = canvas.height / 2 // Initial Y position
@@ -37,7 +51,9 @@ function clear(){
 function animate(){
     clear()
     player()
+    enemy()
     movement()
+    startBattle()
 }
 // The choices the player will have during the fight
 function Fight(){
@@ -57,7 +73,7 @@ function startBattle(){
 
 //if fuction where if the player is in a certain area, a battle will start
 function checkForBattle(){
-    if(Math.random > 0.1){
+    if(Math.random > 0.01){
         startBattle()
     }
 }
@@ -83,6 +99,9 @@ function battleLoop(){
             console.log("Invalid action. Try again.")
             continue
         }
+        if(playerHealth >= 0){
+            endScreen()
+        }
 
         if(monsterHealth <= 0){
             console.log("You defeated the monster!")
@@ -97,6 +116,47 @@ function battleLoop(){
         }
     }
 }
+//Produces the end sreen text
+function endScreen() {
+    coverUp()
+    if (playerHealth <= 0) {
+        graphics.fillStyle = "yellow"
+        graphics.font = "bold 24px 'Arial', serif"
+        graphics.fillText("Game Over")
+        if (!askedPlayAgain) {
+            askedPlayAgain = true
+            setTimeout(() => {
+                if (confirm("Play Again? Click OK to restart, Cancel to exit.")) {
+                    resetGame()
+                }
+            }, 2000)
+        }
+    }
+}
+
+//covers the game and stops the game from being playable
+function coverUp() {
+    if (playerHealth <= 0) {
+        graphics.fillStyle = "black"
+        graphics.fillRect(0, 0, 10000, 10000)
+    }
+}
+
+function resetGame() {
+    //sends them to a webpage
+    window.location.href = "homePage.html"
+    askedPlayAgain = false
+}
+
+//if player touches enemy, start battle
+function checkCollision(){
+    let dx = playerX - enemyX
+    let dy = playerY - enemyY
+    let distance = Math.sqrt(dx * dx + dy * dy)
+    if(distance < playerRadius + enemyRadius){
+        startBattle()
+    }
+}
 
 
 // Creates the player
@@ -108,7 +168,13 @@ function player(){
     graphics.closePath()
 }
 // Creates the enemy
-
+function enemy(){ 
+    graphics.fillStyle= "red"
+    graphics.beginPath()
+    graphics.arc(enemyX, enemyY, enemyRadius, 0, Math.PI*2)
+    graphics.fill()
+    graphics.closePath()
+}
 // Movement for the player
 document.addEventListener("keydown", (event)=>{
     if(event.key === "ArrowUp"){
@@ -143,19 +209,19 @@ document.addEventListener("keyup",(event)=>{
 
 function movement(){
     if(movingUp){
-        playerY -= moveSpeed * fps
+        playerY -= moveSpeed + fps
     }
 
     if(movingDown){
-        playerY +=moveSpeed * fps
+        playerY +=moveSpeed + fps
     }
 
     if(movingLeft){
-        playerX -= moveSpeed * fps
+        playerX -= moveSpeed + fps
     }
 
     if(movingRight){
-        playerX += moveSpeed * fps
+        playerX += moveSpeed + fps
     }
 }
 
@@ -165,4 +231,4 @@ function movement(){
 
 
 
-window.setInterval(animate,fps/1000)
+window.setInterval(animate,fps/10000)

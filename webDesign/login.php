@@ -1,9 +1,10 @@
 <html>
     <head>
-        <title>Leaderboard - Medieval Studios</title>
+        <title>Login - Medieval Studios</title>
     </head>
-    <link rel="icon" type="image/x-icon" href="swords.png">
+    <link rel="icon" type="image/x-icon" href="images/swords.png">
     <link href="webDesign.css" rel="stylesheet">
+    <link href="login.css" rel="stylesheet">
     <body>
         <header>
             <nav>
@@ -21,15 +22,24 @@
                         <a href="leaderboard.htm">Leaderboard</a>
                     </li>
                     <li style="float: right">
-                        <a  href="login.php">Login</a>
+                        <a  href="login.php">Login/Register</a>
                     </li>
                     <li style="float: right">
                         <a href="">Coins: {10}</a>
                     </li>
                 </ul>
             </nav>
-            <h1 class="title"><u>Login Here</u></h1>
         </header>
+        <div class="container">
+        <form id="login" method="post" action="processes/processlogin.php">
+        <label for="user">Username: </label>
+        <input type="text" id="user" name="user"/><br>
+        <label for="password">Password: </label>
+        <input type="password" id="password" name="password"/><br>
+        <br/>
+        <button onclick="login(event);">Login</button>
+        </form>
+        <h1 class="subtitle">New User? Click <a href="register.php">here</a> to register!</h1>
         <main>
         </main>
     </body>

@@ -2,7 +2,7 @@ let canvas = document.querySelector("canvas");
 //Gets Graphics
 const graphics = canvas.getContext("2d");
 let stat = [0,0,0,0,0];
-let statNames = ["Health","DMG","P","P","P"];
+let statNames = ["Health","DMG","Mana","P","P"];
 let upgradeCost = [1,1,1,1,1];
 let upgradeAmount = [1,1,1,1,1];
 let coins = 50;

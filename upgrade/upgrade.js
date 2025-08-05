@@ -2,6 +2,8 @@ let canvas = document.querySelector("canvas");
 //Gets Graphics
 const graphics = canvas.getContext("2d");
 let stat = [0,0,0,0,0];
+let upgradeCost = [1,1,1,1,1];
+let coins = 50;
 let buttons=[];
 
 createUpgradeButton(canvas.width-60,0,60,20,0,"Health",1);
@@ -21,8 +23,13 @@ function createUpgradeButton(x,y,width,height,statNum,statName,amount){
 
 function buttonPress(x,y){
     if(x>canvas.width-60){
-        stat[buttons[Math.floor(y/20)][0]] += buttons[Math.floor(y/20)][1];
-        console.log(stat)
+        if(coins>=Math.floor(upgradeCost[Math.floor(y/20)])){
+            stat[buttons[Math.floor(y/20)][0]] += buttons[Math.floor(y/20)][1];
+            coins-=Math.floor(upgradeCost[Math.floor(y/20)]);
+            upgradeCost[Math.floor(y/20)] *= 1.1;
+        }else{
+            console.log("Too expensive");
+        }
     }
 }
 

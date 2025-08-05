@@ -47,6 +47,7 @@
         <br/>
         <button onclick="login(event);">Register</button>
         </form>
+        <h1 class="subtitle">Have an account? Click <a href="login.php">here</a> to login!</h1>
         <main>
         </main>
     </body>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>map</title>
+
+       <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .canvas-row {
+            display: flex;
+        }
+        canvas {
+            margin: 0;
+            padding: 0;
+            border: none;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="canvas-row">
+    <canvas id="grass" style="background-image: url(img/grass.jpg);"  width="1000"  height="600" margin="0" padding="0";></canvas>
+    <canvas id="river"style="background-image: url(img/river.jpg);"  width="200"  height="600" margin="0" padding="0";></canvas>
+    <canvas id="snow"style="background-image: url(img/snow.jpg);"  width="600"  height="600" margin="0" padding="0";></canvas>
+    </div>
+    </body>
+    <script>
+        //start creating houses, bridge, ect.
+    function bridge(){
+
+        let canvas = document.querySelector('#river');
+        const graphics = canvas.getContext('2d');
+
+        graphics.fillStyle = "brown";
+        graphics.fillRect(0,220,20,140);
+        graphics.fillRect(25,220,20,140);
+        graphics.fillRect(50,220,20,140);
+        graphics.fillRect(75,220,20,140);
+        graphics.fillRect(100,220,20,140);
+        graphics.fillRect(125,220,20,140);
+        graphics.fillRect(150,220,20,140);
+        graphics.fillRect(175,220,20,140);
+        graphics.fillRect(200,220,20,140);
+        
+
+        graphics.fillStyle = "rgb(101,67,33)";
+        graphics.fillRect(0,200,200,20)
+        graphics.fillRect(0,360,200,20)
+
+    }
+
+    function houses(){
+        let canvas = document.querySelector('#grass');
+        const graphics = canvas.getContext('2d');  
+
+
+        let housex = Math.floor(Math.random() * (400 - 100 + 1)) + 200;
+        let housey = Math.floor(Math.random() * (310 - 300 + 1)) + 180;
+
+          let housex2 = Math.floor(Math.random() * (400 - 100 + 1)) + 500;
+          let housey2 = Math.floor(Math.random() * (400 - 300 + 1)) + 180;
+
+        graphics.fillStyle = "brown";
+        graphics.fillRect(housex, housey, 100, 100);
+
+        graphics.fillStyle = "rgb(101,67,33)";
+        graphics.fillRect(housex-5, housey, 110, -10);
+        graphics.fillRect(housex+10, housey, 80, -20);
+        graphics.fillRect(housex+25, housey, 50, -30);
+
+        graphics.fillStyle = "brown";
+        graphics.fillRect(housex2, housey2, 100, 100);
+
+        graphics.fillStyle = "rgb(101,67,33)";
+        graphics.fillRect(housex2-5, housey2, 110, -10);
+        graphics.fillRect(housex2+10, housey2, 80, -20);
+        graphics.fillRect(housex2+25, housey2, 50, -30);
+
+    }
+
+    function trees(){
+        let canvas = document.querySelector('#grass');
+        const graphics = canvas.getContext('2d');
+
+        graphics.fillStyle = "rgb(101,67,33)";
+        graphics.fillRect(500,500,30,50);
+
+        graphics.fillStyle = "rgb(2,89,15)";
+        graphics.fillRect(450,460,130,40);
+        graphics.fillRect(470,430,90,40);
+        graphics.fillRect(495,400,45,40);
+
+
+
+    }
+
+    bridge();
+    houses();
+    trees();
+
+    </script>
+
+
+</body>
+</html>

@@ -12,223 +12,201 @@ TODO: Fix the battle system so that it works with the combat system
 // WARNING: This code is a work in progress and may not function as intended.
 
 
-let canvas = document.querySelector("canvas")
+
+
+const canvas = document.querySelector("canvas")
 const graphics = canvas.getContext('2d')
 
-let playerHealth = 100
-let monsterHealth = 100
+let message = ""
+let battleActive = false
+let playerHealth = 100, monsterHealth = 100
 let fps = 1
-
-movingUp = false
-movingDown = false
-movingLeft = false
-movingRight = false
-askedPlayAgain = false
-
-let enemyX = 100
-let enemyY = 100 
-let enemyRadius = 10 
-
-let playerX = canvas.width / 2 // Initial X position
-let playerY = canvas.height / 2 // Initial Y position
-const playerRadius = 10
-const moveSpeed = 1
+let movingUp = false, movingDown = false, movingLeft = false, movingRight = false
+let askedPlayAgain = false
+let enemyX = 100, enemyY = 100, enemyRadius = 10
+let playerX = canvas.width / 2, playerY = canvas.height / 2, playerRadius = 10, moveSpeed = 1
 
 
-const choice1 = document.getElementById("Option1")
-const choice2 = document.getElementById("Option2")
-const choice3 = document.getElementById("Option3")
-const choice4 = document.getElementById("Option4")
 
 
-function clear(){
+function clear() {
     graphics.fillStyle = 'black'
-    graphics.fillRect(0,0,canvas.width,canvas.height)
-
+    graphics.fillRect(0, 0, canvas.width, canvas.height)
 }
 
 
-function animate(){
+
+
+function animate() {
     clear()
-    player()
-    enemy()
-    movement()
-    startBattle()
-}
-// The choices the player will have during the fight
-function Fight(){
-
-}
-
-
-
-
-//randomly, while the player is romping around, a battle will start
-function startBattle(){
-    console.log("A wild monster appears!")
-    playerHealth = 100 // reset player health for the battle
-    monsterHealth = 100 // reset monster health for the battle
-    battleLoop()
-}
-
-//if fuction where if the player is in a certain area, a battle will start
-function checkForBattle(){
-    if(Math.random > 0.01){
-        startBattle()
+    drawCircle(playerX, playerY, playerRadius, "yellow")
+    drawCircle(enemyX, enemyY, enemyRadius, "red")
+    movePlayer()
+    checkCollision()
+    if (message) {
+        graphics.fillStyle = "white"
+        graphics.font = "20px Arial"
+        graphics.fillText(message, 20, 40)
     }
+    if (battleActive && awaitingPlayerAction) drawActionOptions()
 }
 
-function monsterAttack(){
-    let damage = Math.floor(Math.random() * 20) + 1 // random damage between 1 and 20
+function drawCircle(x, y, r, color) {
+    graphics.fillStyle = color
+    graphics.beginPath()
+    graphics.arc(x, y, r, 0, Math.PI * 2)
+    graphics.fill()
+    graphics.closePath()
+}
+
+
+
+
+
+function startBattle() {
+    if (battleActive) return
+    battleActive = true
+    message = "A wild monster appears!"
+    playerHealth = 100
+    monsterHealth = 100
+    setTimeout(battleLoop, 1000)
+}
+
+
+
+function monsterAttack() {
+    let damage = Math.floor(Math.random() * 20) + 1
     playerHealth -= damage
-    console.log(`Monster attacks! Player takes ${damage} damage. Player health: ${playerHealth}`)
+    message = `Monster attacks! Player takes ${damage} damage. Player health: ${playerHealth}`
 }
 
-function battleLoop(){
-    while(playerHealth > 0 && monsterHealth > 0){
-        let playerAction = prompt("Choose your action: (1) Attack (2) Heal")
-        if(playerAction === "1"){
-            let damage = Math.floor(Math.random() * 20) + 1 // randomdamage between 1 and 20
-            monsterHealth -= damage
-            console.log(`You attack! Monster takes ${damage} damage. Monster health: ${monsterHealth}`)
-        } else if(playerAction === "2"){
-            let heal = Math.floor(Math.random() * 15) + 1 // randomly heals between 1 and 15
-            playerHealth += heal
-            console.log(`You heal for ${heal}. Player health: ${playerHealth}`)
-        } else{
-            console.log("Invalid action. Try again.")
-            continue
-        }
-        if(playerHealth >= 0){
-            endScreen()
-        }
+// Refactored battle loop to use canvas for choices
 
-        if(monsterHealth <= 0){
-            console.log("You defeated the monster!")
-            break
-        }
+const actionOptions = [
+    { label: "Fight", action: "1" },
+    { label: "Magic", action: "2" },
+    { label: "Item", action: "3" },
+    { label: "Flee", action: "4" }
+]
+let actionRects = [], awaitingPlayerAction = false
 
+
+function battleLoop() {
+    awaitingPlayerAction = true
+}
+
+
+function drawActionOptions(){
+    actionRects = []
+    let startX = 40, startY = 80, btnW = 120, btnH = 40, gap = 20
+    graphics.font = "bold 22px Arial"
+    actionOptions.forEach((opt, i) => {
+        let x = startX, y = startY + i * (btnH + gap)
+        graphics.fillStyle = "#333"
+        graphics.fillRect(x, y, btnW, btnH)
+        graphics.strokeStyle = "#fff"
+        graphics.strokeRect(x, y, btnW, btnH)
+        graphics.fillStyle = "#fff"
+        graphics.fillText(opt.label, x + 20, y + 27)
+        actionRects.push({ x, y, w: btnW, h: btnH, action: opt.action })
+    })
+}
+
+
+function handleCanvasAction(action){
+    if (playerHealth <= 0 || monsterHealth <= 0) return
+    awaitingPlayerAction = false
+    if (action === "1"){
+        let damage = Math.floor(Math.random() * 20) + 1
+        monsterHealth -= damage
+        message = `You attack! Monster takes ${damage} damage. Monster health: ${monsterHealth}`
+    } else if (action === "2"){
+        let heal = Math.floor(Math.random() * 15) + 1
+        playerHealth += heal
+        message = `You heal for ${heal}. Player health: ${playerHealth}`
+    } else if (action === "3"){
+        message = "You rummage for an item, but your bag is empty!"
+    } else if (action === "4"){
+        message = "You try to flee, but the monster blocks your path!"
+    } else{
+        message = "Invalid action. Try again."
+        awaitingPlayerAction = true
+        return
+    }
+    if (monsterHealth <= 0){
+        message = "You defeated the monster!"
+        setTimeout(endScreen, 1500)
+        return
+    }
+    setTimeout(() => {
         monsterAttack()
-
-        if(playerHealth <= 0){
-            console.log("You were defeated by the monster.")
-            break
+        if (playerHealth <= 0){
+            message = "You were defeated by the monster."
+            setTimeout(endScreen, 1500)
+        } else {
+            awaitingPlayerAction = true
         }
-    }
+    }, 1000)
 }
-//Produces the end sreen text
-function endScreen() {
-    coverUp()
-    if (playerHealth <= 0) {
-        graphics.fillStyle = "yellow"
-        graphics.font = "bold 24px 'Arial', serif"
-        graphics.fillText("Game Over")
-        if (!askedPlayAgain) {
-            askedPlayAgain = true
-            setTimeout(() => {
-                if (confirm("Play Again? Click OK to restart, Cancel to exit.")) {
-                    resetGame()
-                }
-            }, 2000)
-        }
+
+
+function endScreen(){
+    graphics.fillStyle = "black"
+    graphics.fillRect(0, 0, canvas.width, canvas.height)
+    graphics.fillStyle = "yellow"
+    graphics.font = "bold 32px Arial"
+    graphics.fillText(playerHealth <= 0 ? "Game Over" : "Victory!", 100, 200)
+    battleActive = false
+    if (!askedPlayAgain) {
+        askedPlayAgain = true
+        setTimeout(() => {
+            if (confirm("Play Again? Click OK to restart, Cancel to exit.")) resetGame()
+        }, 2000)
     }
 }
 
-//covers the game and stops the game from being playable
-function coverUp() {
-    if (playerHealth <= 0) {
-        graphics.fillStyle = "black"
-        graphics.fillRect(0, 0, 10000, 10000)
-    }
-}
-
-function resetGame() {
-    //sends them to a webpage
+function resetGame(){
     window.location.href = "homePage.html"
     askedPlayAgain = false
 }
 
-//if player touches enemy, start battle
+
 function checkCollision(){
-    let dx = playerX - enemyX
-    let dy = playerY - enemyY
+    if (battleActive) return
+    let dx = playerX - enemyX, dy = playerY - enemyY
     let distance = Math.sqrt(dx * dx + dy * dy)
-    if(distance < playerRadius + enemyRadius){
-        startBattle()
-    }
+    if (distance < playerRadius + enemyRadius) startBattle()
+}
+
+document.addEventListener("keydown", e => {
+    if (e.key === "ArrowUp") movingUp = true
+    if (e.key === "ArrowDown") movingDown = true
+    if (e.key === "ArrowLeft") movingLeft = true
+    if (e.key === "ArrowRight") movingRight = true
+})
+document.addEventListener("keyup", e => {
+    if (e.key === "ArrowUp") movingUp = false
+    if (e.key === "ArrowDown") movingDown = false
+    if (e.key === "ArrowLeft") movingLeft = false
+    if (e.key === "ArrowRight") movingRight = false
+})
+
+function movePlayer() {
+    if (movingUp) playerY -= moveSpeed + fps
+    if (movingDown) playerY += moveSpeed + fps
+    if (movingLeft) playerX -= moveSpeed + fps
+    if (movingRight) playerX += moveSpeed + fps
 }
 
 
-// Creates the player
-function player(){ 
-    graphics.fillStyle= "yellow"
-    graphics.beginPath()
-    graphics.arc(playerX, playerY, playerRadius, 0, Math.PI*2)
-    graphics.fill()
-    graphics.closePath()
-}
-// Creates the enemy
-function enemy(){ 
-    graphics.fillStyle= "red"
-    graphics.beginPath()
-    graphics.arc(enemyX, enemyY, enemyRadius, 0, Math.PI*2)
-    graphics.fill()
-    graphics.closePath()
-}
-// Movement for the player
-document.addEventListener("keydown", (event)=>{
-    if(event.key === "ArrowUp"){
-        movingUp = true
-    }else if(event.key === "ArrowDown"){
-        movingDown = true
-    }
+canvas.addEventListener("mousedown", evt => {
+    if (!(battleActive && awaitingPlayerAction)) return
+    let rect = canvas.getBoundingClientRect()
+    let mouseX = evt.clientX - rect.left, mouseY = evt.clientY - rect.top
+    actionRects.forEach(r => {
+        if (mouseX >= r.x && mouseX <= r.x + r.w && mouseY >= r.y && mouseY <= r.y + r.h) handleCanvasAction(r.action)
+    })
 })
 
-document.addEventListener("keyup",(event)=>{
-    if(event.key === "ArrowUp"){
-        movingUp = false
-    }else if(event.key === "ArrowDown"){
-        movingDown = false
-    }
-})
 
-document.addEventListener("keydown",(event)=>{
-    if(event.key === "ArrowLeft"){
-        movingLeft = true
-    }else if(event.key === "ArrowRight"){
-        movingRight = true
-    }
-})
-document.addEventListener("keyup",(event)=>{
-    if(event.key === "ArrowLeft"){
-        movingLeft = false
-    }else if(event.key === "ArrowRight"){
-        movingRight = false
-    }
-})
-
-function movement(){
-    if(movingUp){
-        playerY -= moveSpeed + fps
-    }
-
-    if(movingDown){
-        playerY +=moveSpeed + fps
-    }
-
-    if(movingLeft){
-        playerX -= moveSpeed + fps
-    }
-
-    if(movingRight){
-        playerX += moveSpeed + fps
-    }
-}
-
-
-
-
-
-
-
-window.setInterval(animate,fps/10000)
+window.setInterval(animate, fps / 10000)

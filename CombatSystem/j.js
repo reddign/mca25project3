@@ -76,7 +76,7 @@ function checkForBattle(){
 
 function monsterAttack(){
     let damage = Math.floor(Math.random() * 20) + 1 // random damage between 1 and 20
-    playerHealth -= 100
+    playerHealth -= damage
     message = `Monster attacks! Player takes ${damage} damage. Player health: ${playerHealth}`
 }
 

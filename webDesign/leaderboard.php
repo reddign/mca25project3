@@ -26,7 +26,7 @@ session_start();
                     </li>
                     <li style="float: right">
                         <?php if ($_SESSION["UserID"] != ""){
-                            print("<a href='logout.php'>Hello, {$_SESSION['UserID']}</a>");
+                            print("<a href='logout.php'>Hello, {$_SESSION['UserID']}!</a>");
                         }else{
                             print("<a href='login.php'>Login/Register</a>");
                         }?>
@@ -40,7 +40,8 @@ session_start();
             <img class="image" src="images/trophy.png" width="20%" height="40%" style="float:left; padding: 100px;">
             </div>
             <h1 class="title"><u>Leaderboard</u></h1>
-        </header><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            <h3 class="leaderboardTitle">Leaderboards will be coming soon. Stay tuned!</h3>
+        </header><br><br>
         <footer>
             <p>Copyright 2025. All rights reserved.</p>
         </footer>

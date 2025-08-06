@@ -26,7 +26,7 @@ session_start();
                     </li>
                     <li style="float: right">
                         <?php if ($_SESSION["UserID"] != ""){
-                           print("<a href='logout.php'>Hello, {$_SESSION['UserID']}</a>");
+                           print("<a href='logout.php'>Hello, {$_SESSION['UserID']}!</a>");
                         }else{
                             print("<a href='login.php'>Login/Register</a>");
                         }?>
@@ -47,8 +47,6 @@ session_start();
             <h3 class="instructions">- After each run, the player will gain a certain amount of coins based on how far they progress</h3>
             <h3 class="instructions">- The skills in this game consist of health, damage, and mana</h3>
             <h3 class="instructions">- Lastly, we hope you have fun playing the game!</h3>
-            
-            
         </header>
         <footer>
             <p>Copyright 2025. All rights reserved.</p>

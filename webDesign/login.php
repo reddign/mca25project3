@@ -28,7 +28,7 @@ session_start();
                     </li>
                     <li style="float: right">
                         <?php if ($_SESSION["UserID"] != ""){
-                           print("<a href='logout.php'>Hello, {$_SESSION['UserID']}</a>");
+                           print("<a href='logout.php'>Hello, {$_SESSION['UserID']}!</a>");
                         }else{
                             print("<a href='login.php'>Login/Register</a>");
                         }?>

@@ -1,212 +1,289 @@
-// making a turn in the combat system
-// this code will be integraded into other files later
-
-/*
-TODO: Fix the battle system so that it works with the combat system
-      Fix the end screen so that it sends the player to the home page
-      Fix the player collision with the enemy
-      Fix the Option buttons so that they work with the combat system
-      Take everything out of the console log and put it into the game
-*/
-
 // WARNING: This code is a work in progress and may not function as intended.
 
 
-
-
-const canvas = document.querySelector("canvas")
+let canvas = document.querySelector("canvas")
 const graphics = canvas.getContext('2d')
 
-let message = ""
-let battleActive = false
-let playerHealth = 100, monsterHealth = 100
+
+let message = "" // Holds the current game message
+let battleActive = false // Tracks if a battle is ongoing
+
+let playerHealth = 100
+let monsterHealth = 100
 let fps = 1
-let movingUp = false, movingDown = false, movingLeft = false, movingRight = false
-let askedPlayAgain = false
-let enemyX = 100, enemyY = 100, enemyRadius = 10
-let playerX = canvas.width / 2, playerY = canvas.height / 2, playerRadius = 10, moveSpeed = 1
 
+movingUp = false
+movingDown = false
+movingLeft = false
+movingRight = false
+askedPlayAgain = false
 
+let enemyX = 100
+let enemyY = 100 
+let enemyRadius = 10 
 
+let playerX = canvas.width / 2 // Initial X position
+let playerY = canvas.height / 2 // Initial Y position
+const playerRadius = 10
+const moveSpeed = 1
 
-function clear() {
+function clear(){
     graphics.fillStyle = 'black'
-    graphics.fillRect(0, 0, canvas.width, canvas.height)
+    graphics.fillRect(0,0,canvas.width,canvas.height)
 }
 
 
 
 
-function animate() {
+function animate(){
     clear()
-    drawCircle(playerX, playerY, playerRadius, "yellow")
-    drawCircle(enemyX, enemyY, enemyRadius, "red")
-    movePlayer()
+    player()
+    enemy()
+    movement()
     checkCollision()
+    // Draw the message on the canvas
     if (message) {
         graphics.fillStyle = "white"
         graphics.font = "20px Arial"
         graphics.fillText(message, 20, 40)
     }
-    if (battleActive && awaitingPlayerAction) drawActionOptions()
+    // Draw action options if in battle
+    if (battleActive && playersAction) {
+        drawActionOptions()
+    }
 }
 
-function drawCircle(x, y, r, color) {
-    graphics.fillStyle = color
-    graphics.beginPath()
-    graphics.arc(x, y, r, 0, Math.PI * 2)
-    graphics.fill()
-    graphics.closePath()
-}
+//randomly, while the player is romping around, a battle will start
 
 
-
-
-
-function startBattle() {
+function startBattle(){
     if (battleActive) return
     battleActive = true
     message = "A wild monster appears!"
-    playerHealth = 100
-    monsterHealth = 100
-    setTimeout(battleLoop, 1000)
+    playerHealth = 100 // reset player health for the battle
+    monsterHealth = 100 // reset monster health for the battle
+    setTimeout(() => battleLoop(), 1000)
+}
+
+//if fuction where if the player is in a certain area, a battle will start
+function checkForBattle(){
+    if(Math.random > 0.01){
+        startBattle()
+    }
 }
 
 
-
-function monsterAttack() {
-    let damage = Math.floor(Math.random() * 20) + 1
+function monsterAttack(){
+    let damage = Math.floor(Math.random() * 20) + 1 // random damage between 1 and 20
     playerHealth -= damage
     message = `Monster attacks! Player takes ${damage} damage. Player health: ${playerHealth}`
 }
 
 // Refactored battle loop to use canvas for choices
-
-const actionOptions = [
+let actionOptions = [
     { label: "Fight", action: "1" },
     { label: "Magic", action: "2" },
     { label: "Item", action: "3" },
     { label: "Flee", action: "4" }
 ]
-let actionRects = [], awaitingPlayerAction = false
+let actionRects = []
+let playersAction = false
 
-
-function battleLoop() {
-    awaitingPlayerAction = true
+function battleLoop(){
+    playersAction = true
+    // Hide HTML buttons if present
+    let huh = document.getElementById("playerChoice")
+    if (huh) huh.style.display = "none"
 }
 
-
-function drawActionOptions(){
+function drawActionOptions() {
+    if (!playersAction) return
     actionRects = []
-    let startX = 40, startY = 80, btnW = 120, btnH = 40, gap = 20
+    let startX = 40
+    let startY = 80
+    let width = 120
+    let height = 40
+    let gap = 20
     graphics.font = "bold 22px Arial"
-    actionOptions.forEach((opt, i) => {
-        let x = startX, y = startY + i * (btnH + gap)
+    for (let i = 0; i < actionOptions.length; i++) {
+        let x = startX
+        let y = startY + i * (height + gap)
+        // Draw button background
         graphics.fillStyle = "#333"
-        graphics.fillRect(x, y, btnW, btnH)
-        graphics.strokeStyle = "#fff"
-        graphics.strokeRect(x, y, btnW, btnH)
-        graphics.fillStyle = "#fff"
-        graphics.fillText(opt.label, x + 20, y + 27)
-        actionRects.push({ x, y, w: btnW, h: btnH, action: opt.action })
-    })
+        graphics.fillRect(x, y, width, height)
+        // Draw button border
+        graphics.strokeStyle = "white"
+        graphics.strokeRect(x, y, width, height)
+        // Draw label
+        graphics.fillStyle = "white"
+        graphics.fillText(actionOptions[i].label, x + 20, y + 27)
+        // Store rect for click detection
+        actionRects.push({ x, y, w: width, h: height, action: actionOptions[i].action })
+    }
 }
 
-
-function handleCanvasAction(action){
+function action(option) {
     if (playerHealth <= 0 || monsterHealth <= 0) return
-    awaitingPlayerAction = false
-    if (action === "1"){
+    playersAction = false
+    if (option === "1") {
         let damage = Math.floor(Math.random() * 20) + 1
         monsterHealth -= damage
         message = `You attack! Monster takes ${damage} damage. Monster health: ${monsterHealth}`
-    } else if (action === "2"){
+    } else if (option === "2") {
         let heal = Math.floor(Math.random() * 15) + 1
         playerHealth += heal
         message = `You heal for ${heal}. Player health: ${playerHealth}`
-    } else if (action === "3"){
+    } else if (option === "3") {
         message = "You rummage for an item, but your bag is empty!"
-    } else if (action === "4"){
+    } else if (option === "4") {
         message = "You try to flee, but the monster blocks your path!"
-    } else{
+    } else {
         message = "Invalid action. Try again."
-        awaitingPlayerAction = true
+        playersAction = true
         return
     }
-    if (monsterHealth <= 0){
+
+    if (monsterHealth <= 0) {
         message = "You defeated the monster!"
-        setTimeout(endScreen, 1500)
+        setTimeout(() => endScreen(), 1500)
         return
     }
+
     setTimeout(() => {
         monsterAttack()
-        if (playerHealth <= 0){
-            message = "You were defeated by the monster."
-            setTimeout(endScreen, 1500)
+        if (playerHealth <= 0) {
+            message = "You have fallen."
+            setTimeout(() => endScreen(), 1500)
         } else {
-            awaitingPlayerAction = true
+            playersAction = true
         }
     }, 1000)
 }
 
+//Produces the end screen text
 
-function endScreen(){
-    graphics.fillStyle = "black"
-    graphics.fillRect(0, 0, canvas.width, canvas.height)
+function endScreen() {
+    coverUp()
     graphics.fillStyle = "yellow"
-    graphics.font = "bold 32px Arial"
-    graphics.fillText(playerHealth <= 0 ? "Game Over" : "Victory!", 100, 200)
+    graphics.font = "bold 32px 'Arial', serif"
+    if (playerHealth <= 0) {
+        graphics.fillText("Game Over", 100, 200)
+    } else if (monsterHealth <= 0) {
+        graphics.fillText("Victory!", 100, 200)
+    }
     battleActive = false
     if (!askedPlayAgain) {
         askedPlayAgain = true
         setTimeout(() => {
-            if (confirm("Play Again? Click OK to restart, Cancel to exit.")) resetGame()
+            if (confirm("Play Again? Click OK to restart, Cancel to exit.")) {
+                resetGame()
+            }
         }, 2000)
     }
 }
 
-function resetGame(){
-    window.location.href = "homePage.html"
-    askedPlayAgain = false
+//covers the game and stops the game from being playable
+function coverUp() {
+    if (playerHealth <= 0) {
+        graphics.fillStyle = "black"
+        graphics.fillRect(0, 0, 10000, 10000)
+    }
 }
 
+
+//if player touches enemy, start battle
 
 function checkCollision(){
     if (battleActive) return
-    let dx = playerX - enemyX, dy = playerY - enemyY
+    let dx = playerX - enemyX
+    let dy = playerY - enemyY
     let distance = Math.sqrt(dx * dx + dy * dy)
-    if (distance < playerRadius + enemyRadius) startBattle()
-}
-
-document.addEventListener("keydown", e => {
-    if (e.key === "ArrowUp") movingUp = true
-    if (e.key === "ArrowDown") movingDown = true
-    if (e.key === "ArrowLeft") movingLeft = true
-    if (e.key === "ArrowRight") movingRight = true
-})
-document.addEventListener("keyup", e => {
-    if (e.key === "ArrowUp") movingUp = false
-    if (e.key === "ArrowDown") movingDown = false
-    if (e.key === "ArrowLeft") movingLeft = false
-    if (e.key === "ArrowRight") movingRight = false
-})
-
-function movePlayer() {
-    if (movingUp) playerY -= moveSpeed + fps
-    if (movingDown) playerY += moveSpeed + fps
-    if (movingLeft) playerX -= moveSpeed + fps
-    if (movingRight) playerX += moveSpeed + fps
+    if (distance < playerRadius + enemyRadius) {
+        startBattle()
+    }
 }
 
 
-canvas.addEventListener("mousedown", evt => {
-    if (!(battleActive && awaitingPlayerAction)) return
+// Creates the player
+function player(){ 
+    graphics.fillStyle= "yellow"
+    graphics.beginPath()
+    graphics.arc(playerX, playerY, playerRadius, 0, Math.PI*2)
+    graphics.fill()
+    graphics.closePath()
+}
+// Creates the enemy
+function enemy(){ 
+    graphics.fillStyle= "red"
+    graphics.beginPath()
+    graphics.arc(enemyX, enemyY, enemyRadius, 0, Math.PI*2)
+    graphics.fill()
+    graphics.closePath()
+}
+// Movement for the player
+document.addEventListener("keydown", (event)=>{
+    if(event.key === "ArrowUp"){
+        movingUp = true
+    }else if(event.key === "ArrowDown"){
+        movingDown = true
+    }
+})
+
+document.addEventListener("keyup",(event)=>{
+    if(event.key === "ArrowUp"){
+        movingUp = false
+    }else if(event.key === "ArrowDown"){
+        movingDown = false
+    }
+})
+
+document.addEventListener("keydown",(event)=>{
+    if(event.key === "ArrowLeft"){
+        movingLeft = true
+    }else if(event.key === "ArrowRight"){
+        movingRight = true
+    }
+})
+document.addEventListener("keyup",(event)=>{
+    if(event.key === "ArrowLeft"){
+        movingLeft = false
+    }else if(event.key === "ArrowRight"){
+        movingRight = false
+    }
+})
+
+function movement(){
+    if(movingUp){
+        playerY -= moveSpeed + fps
+    }
+
+    if(movingDown){
+        playerY +=moveSpeed + fps
+    }
+
+    if(movingLeft){
+        playerX -= moveSpeed + fps
+    }
+
+    if(movingRight){
+        playerX += moveSpeed + fps
+    }
+}
+
+// Handle mouse clicks for canvas action selection
+canvas.addEventListener("mousedown", function(event) {
+    if (!(battleActive && playersAction)) return
     let rect = canvas.getBoundingClientRect()
-    let mouseX = evt.clientX - rect.left, mouseY = evt.clientY - rect.top
-    actionRects.forEach(r => {
-        if (mouseX >= r.x && mouseX <= r.x + r.w && mouseY >= r.y && mouseY <= r.y + r.h) handleCanvasAction(r.action)
-    })
+    let mouseX = event.clientX - rect.left
+    let mouseY = event.clientY - rect.top
+    for (let i = 0; i < actionRects.length; i++) {
+        let round = actionRects[i]
+        if (mouseX >= round.x && mouseX <= round.x + round.w && mouseY >= round.y && mouseY <= round.y + round.h) {
+            action(round.action)
+            break
+        }
+    }
 })
 
 
-window.setInterval(animate, fps / 10000)
+window.setInterval(animate,fps/10000)

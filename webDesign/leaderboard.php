@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <html>
     <head>
         <title>Leaderboard - Medieval Studios</title>
@@ -9,19 +13,23 @@
             <nav>
                 <ul>
                     <li>
-                        <a href="homePage.htm">Home</a>
+                        <a href="homePage.php">Home</a>
                     </li>
                     <li>
-                        <a href="instructions.htm">How To Play</a>
+                        <a href="instructions.php">How To Play</a>
                     </li>
                     <li>
-                        <a href="credits.htm">Credits</a>
+                        <a href="credits.php">Credits</a>
                     </li>
                     <li>
-                        <a href="leaderboard.htm">Leaderboard</a>
+                        <a href="leaderboard.php">Leaderboard</a>
                     </li>
                     <li style="float: right">
-                        <a href="login.php">Login/Register</a>
+                        <?php if ($_SESSION["UserID"] != ""){
+                            print("<a href='logout.php'>Hello, {$_SESSION['UserID']}</a>");
+                        }else{
+                            print("<a href='login.php'>Login/Register</a>");
+                        }?>
                     </li>
                 </ul>
             </nav>

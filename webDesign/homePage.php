@@ -4,12 +4,10 @@ session_start();
 
 <html>
     <head>
-        <title>Login - Medieval Studios</title>
+        <title>Home - Medieval Studios</title>
     </head>
     <link rel="icon" type="image/x-icon" href="images/swords.png">
     <link href="webDesign.css" rel="stylesheet">
-    <link href="login.css" rel="stylesheet">
-    <script src="login.js"></script>
     <body>
         <header>
             <nav>
@@ -28,30 +26,26 @@ session_start();
                     </li>
                     <li style="float: right">
                         <?php if ($_SESSION["UserID"] != ""){
-                           print("<a href='logout.php'>Hello, {$_SESSION['UserID']}</a>");
+                            print("<a href='logout.php'>Hello, {$_SESSION['UserID']}</a>");
                         }else{
                             print("<a href='login.php'>Login/Register</a>");
                         }?>
                     </li>
                 </ul>
             </nav>
+            <div>
+            <img class="image" src="images/knight_face_left.png" width="30%" height="70%" style="float:right">
+            </div>
+            <div>
+            <img class="image" src="images/knight_face_right.png" width="30%" height="70%" style="float:left">
+            </div>
+            <h1 class="title">Welcome To Medieval Studios!</h1>
+            <h3 class="subtitle">Plan your moves. Win the fight.</h3>
         </header>
-        <div>
-        <img class="image" src="images/medieval_knight_face_left.png" width="24%" height="50%" style="float:right; padding-top: 20px;">
-        </div>
-        <div>
-        <img class="image" src="images/medieval_knight_face_right.png" width="24%" height="50%" style="float:left; padding-top: 20px;">
-        </div>
-        <div class="container">
-        <form id="login" method="post" action="../webDesign/processes/processLogin.php">
-        <label for="user">Username: </label>
-        <input type="text" id="user" name="user"/><br>
-        <label for="password">Password: </label>
-        <input type="password" id="password" name="password"/><br>
-        <br/>
-        <button onclick="login(event);">Login</button>
-    </form>
-        <h1 class="subtitle">New User? Click <a href="register.php">here</a> to register!</h1>
+        <main>
+            <p class="description">Prepare for turn-based battles and start your adventure now.</p>
+                <h1 class="play"><span class="highlight"><a href="playNow.php">Play Now</span></a></h1>
+        </main>
         <footer>
             <p>Copyright 2025. All rights reserved.</p>
         </footer>

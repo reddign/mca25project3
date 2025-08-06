@@ -39,7 +39,7 @@ if (is_array($rows) && array_key_exists(0, $rows)){
     //do something here to keep user logged in
     $_SESSION["LoggedIn"] = "YES";
     $_SESSION["UserID"] = $u; 
-    header("location: ../loggedInPage.htm");
+    header("location: ../homePage.php");
 }else{
     $_SESSION["LoggedIn"] = "NO";
     $_SESSION["UserID"] = ""; 

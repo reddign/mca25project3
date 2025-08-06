@@ -59,10 +59,21 @@ function count(arr,key){
 }
 
 function getUpgrade(x,y){
-    let xSlot = Math.floor(x/20);
-    let ySlot = Math.floor(y/20);
     if(points>0){
-        let upgradeSelect = xSlot+ySlot*16;
+        let upgradeSelect;
+        let height = 0;
+        for(let i=0; i<imgPos.length; i++){
+            height = Math.max(height,imgPos[i]);
+        }
+        let prev =0;
+        for(let i=0; i<=height; i++){
+            for(let j=0; j<count(imgPos,i); j++){
+                if(x>canvas.width/2-((j-count(imgPos,i)/2+.5)*25)&&x<canvas.width/2-((j-count(imgPos,i)/2+.5)*25)+21&&y>i*25&&y<i*25+21){
+                    upgradeSelect = prev;
+                }
+                prev++
+            }
+        }
         let canGet = true;
         for(let i=0; i<prerequisites[upgradeSelect].length; i++){
             if(!upgradeOwned[prerequisites[upgradeSelect][i]]){

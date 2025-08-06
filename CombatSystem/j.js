@@ -8,7 +8,7 @@ const graphics = canvas.getContext('2d')
 let message = "" // Holds the current game message
 let battleActive = false // Tracks if a battle is ongoing
 
-let playerHealth = 100
+let playerHealth = 10
 let monsterHealth = 100
 let fps = 1
 
@@ -28,11 +28,11 @@ const playerRadius = 10
 const moveSpeed = 1
 
 function clear(){
-    graphics.fillStyle = 'black'
-    graphics.fillRect(0,0,canvas.width,canvas.height)
+    if(!askedPlayAgain){
+        graphics.fillStyle = 'black'
+        graphics.fillRect(0,0,canvas.width,canvas.height)
+    }
 }
-
-
 
 
 function animate(){
@@ -41,6 +41,7 @@ function animate(){
     enemy()
     movement()
     checkCollision()
+    endScreen()
     // Draw the message on the canvas
     if (message) {
         graphics.fillStyle = "white"
@@ -75,7 +76,7 @@ function checkForBattle(){
 
 function monsterAttack(){
     let damage = Math.floor(Math.random() * 20) + 1 // random damage between 1 and 20
-    playerHealth -= damage
+    playerHealth -= 100
     message = `Monster attacks! Player takes ${damage} damage. Player health: ${playerHealth}`
 }
 
@@ -152,7 +153,7 @@ function action(option) {
     setTimeout(() => {
         monsterAttack()
         if (playerHealth <= 0) {
-            message = "You have fallen."
+            message = ""
             setTimeout(() => endScreen(), 1500)
         } else {
             playersAction = true
@@ -162,23 +163,24 @@ function action(option) {
 
 //Produces the end screen text
 
-function endScreen() {
-    coverUp()
-    graphics.fillStyle = "yellow"
-    graphics.font = "bold 32px 'Arial', serif"
+function endScreen(){
+    coverUp();
     if (playerHealth <= 0) {
-        graphics.fillText("Game Over", 100, 200)
-    } else if (monsterHealth <= 0) {
-        graphics.fillText("Victory!", 100, 200)
-    }
-    battleActive = false
-    if (!askedPlayAgain) {
-        askedPlayAgain = true
-        setTimeout(() => {
-            if (confirm("Play Again? Click OK to restart, Cancel to exit.")) {
-                resetGame()
-            }
-        }, 2000)
+        graphics.fillStyle = "white";
+        graphics.font = "bold 24px 'Arial', serif";
+        // Draw text in the center of the canvas
+        const text = "Game Over";
+        const x = canvas.width / 2 - graphics.measureText(text).width / 2;
+        const y = canvas.height / 2;
+        graphics.fillText(text, x, y);
+        if (!askedPlayAgain) {
+            askedPlayAgain = true;
+            setTimeout(() => {
+                if (confirm("Return to title")) {
+                    window.location.href = "http://127.0.0.1/mca/mca25project3/webDesign/homePage.htm";
+                }
+            }, 2000);
+        }
     }
 }
 

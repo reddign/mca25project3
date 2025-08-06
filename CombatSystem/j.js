@@ -12,6 +12,9 @@ let playerHealth = 10
 let monsterHealth = 100
 let fps = 1
 
+let knightimg = document.getElementById('knight')
+let goblinimg = document.getElementById('goblin')
+
 movingUp = false
 movingDown = false
 movingLeft = false
@@ -177,7 +180,7 @@ function endScreen(){
             askedPlayAgain = true;
             setTimeout(() => {
                 if (confirm("Return to title")) {
-                    window.location.href = "http://127.0.0.1/mca/mca25project3/webDesign/homePage.htm";
+                    window.location.href = "http//:127.0.0.1/mca/mca25project3/webDesign/homePage.php";
                 }
             }, 2000);
         }
@@ -207,20 +210,12 @@ function checkCollision(){
 
 
 // Creates the player
-function player(){ 
-    graphics.fillStyle= "yellow"
-    graphics.beginPath()
-    graphics.arc(playerX, playerY, playerRadius, 0, Math.PI*2)
-    graphics.fill()
-    graphics.closePath()
+function player(){
+    graphics.drawImage(knight, playerX, playerY, 50, 50)
 }
 // Creates the enemy
 function enemy(){ 
-    graphics.fillStyle= "red"
-    graphics.beginPath()
-    graphics.arc(enemyX, enemyY, enemyRadius, 0, Math.PI*2)
-    graphics.fill()
-    graphics.closePath()
+    graphics.drawImage(goblin, enemyX, enemyY, 50, 50)
 }
 // Movement for the player
 document.addEventListener("keydown", (event)=>{

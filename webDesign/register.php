@@ -53,7 +53,7 @@ session_start();
         <br/>
         <button onclick="login(event);">Register</button>
     </form>
-        <h1 class="subtitle">Have an account? Click <a href="login.php">here</a> to login!</h1>
+        <h1 class="registerSubtitle">Have an account? Click <a href="login.php">here</a> to login!</h1>
         <footer>
             <p>Copyright 2025. All rights reserved.</p>
         </footer>

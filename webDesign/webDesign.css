@@ -36,11 +36,20 @@ header {
     font-size: 50px;
 }
 
-.credits {
+
+.instructions {
     color: #a50034;
     text-align: center;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: 17px;
+    font-size: 14px;
+}
+
+
+.credits {
+    color: #a50034;
+    text-align: left;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 14px;
 }
 
 .subtitle {
@@ -48,6 +57,20 @@ header {
     text-align: center;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 28px;
+}
+
+.loginSubtitle {
+    color: #a50034;
+    text-align: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 20px;
+}
+
+.registerSubtitle {
+    color: #a50034;
+    text-align: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 20px;
 }
 
 .description {

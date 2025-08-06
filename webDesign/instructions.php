@@ -40,8 +40,17 @@ session_start();
             <img class="image" src="images/scroll.png" width="20%" height="40%" style="float:left; padding: 100px;">
             </div>
             <h1 class="title"><u>Instructions</u></h1>
+            <h3 class="instructions">- Use arrow keys to move around</h3>
+            <h3 class="instructions">- When approaching an enemy, the turn-based battle will start</h3>
+            <h3 class="instructions">- Coins can be spent to buy upgrades</h3>
+            <h3 class="instructions">- As the player progress, they will level up, which can be used to expand their skill tree</h3>
+            <h3 class="instructions">- After each run, the player will gain a certain amount of coins based on how far they progress</h3>
+            <h3 class="instructions">- The skills in this game consist of health, damage, and mana</h3>
+            <h3 class="instructions">- Lastly, we hope you have fun playing the game!</h3>
+            
+            
         </header>
-        <footer><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <footer>
             <p>Copyright 2025. All rights reserved.</p>
         </footer>
     </body>

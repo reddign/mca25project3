@@ -51,7 +51,7 @@ session_start();
         <br/>
         <button onclick="login(event);">Login</button>
     </form>
-        <h1 class="subtitle">New User? Click <a href="register.php">here</a> to register!</h1>
+        <h1 class="loginSubtitle">New User? Click <a href="register.php">here</a> to register!</h1>
         <footer>
             <p>Copyright 2025. All rights reserved.</p>
         </footer>

@@ -46,8 +46,10 @@ session_start();
             <h3 class="credits">Credits Screen Image: <a href="https://www.vecteezy.com/free-png/protective-shield">Protective Shield PNGs by Vecteezy</a></h3>
             <h3 class="credits">Leaderboards Screen Image: <a href="https://www.cleanpng.com/png-golden-trophy-for-achievement-8188779/">Created by CleanPNG</a></h3>
             <h3 class="credits">Login/Register Screen Image: <a href="https://toppng.com/free-image/medival-knight-PNG-free-PNG-Images_29205">Created by TopPNG</a></h3>
+            <h3 class="credits">Player Image: <a href="https://www.pixilart.com/art/the-pixel-knight-baaa421bd4cda71">Created by PixilArt</a></h3>
+            <h3 class="credits">Goblin Image: <a href="https://www.vecteezy.com/free-png/goblin">Goblin PNGs by Vecteezy</a></h3>
         </header>
-        <footer><br><br>
+        <footer><br>
             <p>Copyright 2025. All rights reserved.</p>
         </footer>
     </body>

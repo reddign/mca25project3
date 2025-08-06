@@ -24,6 +24,7 @@ function createUpgradeBasic(stat,amount,prerequisite){
 }
 
 function newDesign(){
+    imgPos =[]
     for(let i=0; i<upgrades.length; i++){
         let paramHeight = 0;
         for(let j=0; j<prerequisites[i].length; j++){
@@ -37,13 +38,19 @@ function newDesign(){
     for(let i=0; i<imgPos.length; i++){
         height = Math.max(height,imgPos[i]);
     }
+    let upgadeCount=0;
     for(let i=0; i<=height; i++){
         for(let j=0; j<count(imgPos,i); j++){
-            graphics.fillStyle = "white";
+            if(upgradeOwned[upgadeCount]){
+                graphics.fillStyle = "#ede8d0";
+            }else{
+                graphics.fillStyle = "white";
+            }
             graphics.fillRect(canvas.width/2-((j-count(imgPos,i)/2+.5)*25),i*25,21,21);
             graphics.fillStyle = "black";
-            graphics.fillText(upgrades[i][0],canvas.width/2-((j-count(imgPos,i)/2+.45)*25),(i+0.4)*25,19)
-            graphics.fillText(upgrades[i][1],canvas.width/2-((j-count(imgPos,i)/2+.45)*25),(i+0.8)*25,19)
+            graphics.fillText(upgrades[upgadeCount][0],canvas.width/2-((j-count(imgPos,i)/2+.45)*25),(i+0.4)*25,19)
+            graphics.fillText(upgrades[upgadeCount][1],canvas.width/2-((j-count(imgPos,i)/2+.45)*25),(i+0.8)*25,19)
+            upgadeCount++;
         }
     }
 }
@@ -71,7 +78,7 @@ function getUpgrade(x,y){
                 if(x>canvas.width/2-((j-count(imgPos,i)/2+.5)*25)&&x<canvas.width/2-((j-count(imgPos,i)/2+.5)*25)+21&&y>i*25&&y<i*25+21){
                     upgradeSelect = prev;
                 }
-                prev++
+                prev++;
             }
         }
         let canGet = true;
@@ -82,6 +89,7 @@ function getUpgrade(x,y){
         }
         if(canGet&&!upgradeOwned[upgradeSelect]){
             upgradeOwned[upgradeSelect]=true;
+            newDesign();
             //stat[statNames.findIndex(upgrades[upgradeSelect][0])]+=upgrades[upgradeSelect][1];
         }else{
             console.log("failed")

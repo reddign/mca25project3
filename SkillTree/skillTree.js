@@ -10,11 +10,12 @@ let upgradeOwned = [];
 let prerequisites = [];
 let points=1;
 
-createUpgradeBasic("Health",1,[])
-createUpgradeBasic("Health",3,[0])
-createUpgradeBoxes();
-//newDesign();
-//console.log(imgPos)
+createUpgradeBasic("Health",1,[]);
+createUpgradeBasic("Health",3,[0]);
+createUpgradeBasic("Dmg",1,[0]);
+createUpgradeBasic("Mana",1,[1,2]);
+newDesign();
+console.log(imgPos)
 
 function createUpgradeBasic(stat,amount,prerequisite){
     upgrades.push([stat,amount]);
@@ -26,34 +27,35 @@ function newDesign(){
     for(let i=0; i<upgrades.length; i++){
         let paramHeight = 0;
         for(let j=0; j<prerequisites[i].length; j++){
-            if(paramHeight<=imgPos){
-                paramHeight = imgPos[prerequisites[j]]+1;
+            if(paramHeight<=imgPos[prerequisites[i][j]]){
+                paramHeight = imgPos[prerequisites[i][j]]+1;
             }
         }
-        if(paramHeight>=imgPos.length){
-            imgPos.push([]);
+        imgPos.push(paramHeight);
+    }
+    let height = 0;
+    for(let i=0; i<imgPos.length; i++){
+        height = Math.max(height,imgPos[i]);
+    }
+    for(let i=0; i<=height; i++){
+        for(let j=0; j<count(imgPos,i); j++){
+            graphics.fillStyle = "white";
+            graphics.fillRect(canvas.width/2-((j-count(imgPos,i)/2+.5)*25),i*25,21,21);
+            graphics.fillStyle = "black";
+            graphics.fillText(upgrades[i][0],canvas.width/2-((j-count(imgPos,i)/2+.45)*25),(i+0.4)*25,19)
+            graphics.fillText(upgrades[i][1],canvas.width/2-((j-count(imgPos,i)/2+.45)*25),(i+0.8)*25,19)
         }
-        imgPos[paramHeight].push(i);
     }
 }
 
-function createUpgradeBoxes(){
-    let row=0;
-    let rowLength=16;
-    for(let i=0; i<upgrades.length; i++){
-        if(row==0&&i*20>canvas.width){
-            row++;
-            rowLength=i;
+function count(arr,key){
+    let counter =0
+    for(let i=0; i<arr.length; i++){
+        if(arr[i]==key){
+            counter++;
         }
-        if(rowLength!=0&&i-rowLength*row>=rowLength){
-            row++
-        }
-        graphics.fillStyle = "white";
-        graphics.fillRect((i-row*rowLength)*20,row*20,20,20);
-        graphics.fillStyle = "black";
-        graphics.fillText(upgrades[i][0],(i-row*rowLength)*20,(row+0.4)*20,20)
-        graphics.fillText(upgrades[i][1],(i-row*rowLength)*20,(row+0.9)*20,20)
     }
+    return counter;
 }
 
 function getUpgrade(x,y){

@@ -5,6 +5,7 @@
     <link rel="icon" type="image/x-icon" href="images/swords.png">
     <link href="webDesign.css" rel="stylesheet">
     <link href="login.css" rel="stylesheet">
+    <script src="login.js"></script>
     <body>
         <header>
             <nav>
@@ -24,9 +25,6 @@
                     <li style="float: right">
                         <a  href="login.php">Login/Register</a>
                     </li>
-                    <li style="float: right">
-                        <a href="">Coins: {10}</a>
-                    </li>
                 </ul>
             </nav>
         </header>
@@ -37,14 +35,14 @@
         <img class="image" src="images/medieval_knight_face_right.png" width="24%" height="50%" style="float:left; padding-top: 20px;">
         </div>
         <div class="container">
-        <form id="login" method="post" action="processes/processlogin.php">
-        <label for="user" class="fields">Username: </label>
+        <form id="login" method="post" action="../webDesign/processes/processLogin.php">
+        <label for="user">Username: </label>
         <input type="text" id="user" name="user"/><br>
-        <label for="password" class="fields">Password: </label>
+        <label for="password">Password: </label>
         <input type="password" id="password" name="password"/><br>
         <br/>
         <button onclick="login(event);">Login</button>
-        </form>
+    </form>
         <h1 class="subtitle">New User? Click <a href="register.php">here</a> to register!</h1>
         <footer>
             <p>Copyright 2025. All rights reserved.</p>

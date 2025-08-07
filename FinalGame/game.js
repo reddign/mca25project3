@@ -43,8 +43,14 @@ function createHomePage(){
     graphics.fillRect(canvas.width/2-30,canvas.height/2+30,60,15);
     graphics.fillRect(canvas.width/2-30,canvas.height/2+50,60,15);
     graphics.fillStyle = "Black";
+    graphics.font = "10px arial";
     graphics.fillText("Play",canvas.width/2-10,canvas.height/2+41);
     graphics.fillText("Upgrades",canvas.width/2-21,canvas.height/2+61)
+    graphics.fillStyle = "White";
+    graphics.font = "20px arial";
+    graphics.fillText("Generic Medieval", canvas.width/2-75, canvas.height/2-20);
+    graphics.fillText("Fighting Game", canvas.width/2-62, canvas.height/2);
+    
 }
 
 //Upgrades

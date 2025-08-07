@@ -25,7 +25,7 @@ session_start();
                         <a href="leaderboard.php">Leaderboard</a>
                     </li>
                     <li style="float: right">
-                        <?php if ($_SESSION["UserID"] != ""){
+                        <?php if ($_SESSION["UserID"] != "" && array_key_exists("UserID", $_SESSION)){
                             print("<a href='logout.php'>Hello, {$_SESSION['UserID']}!</a>");
                         }else{
                             print("<a href='login.php'>Login/Register</a>");

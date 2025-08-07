@@ -52,23 +52,6 @@ function newDesign(){
             graphics.fillText(upgrades[upgadeCount][0],canvas.width/2-((j-count(imgPos,i)/2+.45)*25),(i+0.4)*25,19)
             graphics.fillText(upgrades[upgadeCount][1],canvas.width/2-((j-count(imgPos,i)/2+.45)*25),(i+0.8)*25,19)
             upgadeCount++;
-            /*
-            //Scrapped Idea, Lines Connecting Prerequisites
-            for(let k=0; k<prerequisites[upgadeCount]; k++){
-                console.log(k)
-                graphics.beginPath();
-                graphics.moveTo((j-count(imgPos,i)/2+.5)*25,i*25);
-                graphics.fillStyle = "white"
-                if(j!=0){
-                    graphics.lineTo(canvas.width/2-((j-count(imgPos,i)/2+.5)*25),(i)*25)
-                    graphics.lineTo(canvas.width/2-((j-count(imgPos,i)/2-.4)*25),(i-1)*25)
-                    graphics.lineTo(canvas.width/2-((j-count(imgPos,i)/2-.5)*25),(i-1)*25)
-                    graphics.lineTo(canvas.width/2-((j-count(imgPos,i)/2+.4)*25),(i)*25)
-                }
-                graphics.fill();
-                graphics.closePath();
-            }
-            */
         }
     }
 }

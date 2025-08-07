@@ -14,6 +14,9 @@ function animate(){
     if(screen=="Game"){
         createGamePage();
     }
+    if(screen=="Skills"){
+        createSkillsPage();
+    }
 }
 
 function press(event){
@@ -46,6 +49,8 @@ function press(event){
             break
         }
     }
+    }else if(screen=="Skills"){
+        getUpgrade(x,y)
     }
 }
 
@@ -130,7 +135,7 @@ function showCoins(){
 }
 
 //Game
-
+ 
 function createGamePage(){
     clear()
     player()
@@ -159,6 +164,7 @@ let fps = 1
 
 let knightimg = document.getElementById('knight')
 let goblinimg = document.getElementById('goblin')
+let mapimg = document.getElementById('map')
 
 movingUp = false
 movingDown = false
@@ -177,8 +183,11 @@ const moveSpeed = 1
 
 function clear(){
     if(!askedPlayAgain){
-        graphics.fillStyle = 'black'
-        graphics.fillRect(0,0,canvas.width,canvas.height)
+        if(!battleActive){
+            graphics.drawImage(mapimg, 0, 0, canvas.width, canvas.height);
+        }else{
+            graphics.clearRect(0,0,canvas.width,canvas.height)
+        }
     }
 }
 
@@ -275,8 +284,12 @@ function action(option) {
 
     if (monsterHealth <= 0) {
         message = "You defeated the monster!"
-        setTimeout(() => endScreen(), 1500)
-        return
+        battleActive=false;
+        message="";
+        screen="Skills";
+        graphics.clearRect(0,0,canvas.width,canvas.height);
+        points++;
+        return;
     }
 
     setTimeout(() => {
@@ -419,5 +432,118 @@ function reset(){
     playersAction = false
 }
 
+//Skill Tree
+
+let imgPos = [];
+let upgrades = [];
+let upgradeOwned = [];
+let prerequisites = [];
+let points=0;
+
+function createSkillsPage(){
+    imgPos = [];
+    upgrades = [];
+    prerequisites = [];
+    createUpgradeBasic("Health",1,[],0);
+    createUpgradeBasic("Health",3,[0],0);
+    createUpgradeBasic("Dmg",1,[0],1);
+    createUpgradeBasic("Mana",1,[0],2);
+    createUpgradeBasic("Dmg",3,[2],1);
+    createUpgradeBasic("Mana",4,[1,2,3],2);  
+    newDesign();
+}
+
+function createUpgradeBasic(stat,amount,prerequisite,statNum){
+    upgrades.push([stat,amount,statNum]);
+    prerequisites.push(prerequisite);
+    if(upgradeOwned.length<upgrades.length){
+        upgradeOwned.push(false);
+    }
+}
+
+function newDesign(){
+    imgPos =[]
+    for(let i=0; i<upgrades.length; i++){
+        let paramHeight = 0;
+        for(let j=0; j<prerequisites[i].length; j++){
+            if(paramHeight<=imgPos[prerequisites[i][j]]){
+                paramHeight = imgPos[prerequisites[i][j]]+1;
+            }
+        }
+        imgPos.push(paramHeight);
+    }
+    let height = 0;
+    for(let i=0; i<imgPos.length; i++){
+        height = Math.max(height,imgPos[i]);
+    }
+    let upgadeCount=0;
+    for(let i=0; i<=height; i++){
+        for(let j=0; j<count(imgPos,i); j++){
+            if(upgradeOwned[upgadeCount]){
+                graphics.fillStyle = "#ede8d0";
+            }else{
+                graphics.fillStyle = "white";
+            }
+            graphics.fillRect(canvas.width/2-((j-count(imgPos,i)/2+.5)*25),i*25,21,21);
+            graphics.fillStyle = "black";
+            graphics.fillText(upgrades[upgadeCount][0],canvas.width/2-((j-count(imgPos,i)/2+.45)*25),(i+0.4)*25,19)
+            graphics.fillText(upgrades[upgadeCount][1],canvas.width/2-((j-count(imgPos,i)/2+.45)*25),(i+0.8)*25,19)
+            upgadeCount++;
+        }
+    }
+    let haveAll=true;
+    for(let i=0; i<upgradeOwned.length; i++){
+        if(!upgradeOwned[i]){
+            haveAll=false;
+        }
+    }
+    if(points==0||haveAll){
+        screen="Game";
+        graphics.clearRect(0,0,canvas.width,canvas.height)
+    }
+}
+
+function count(arr,key){
+    let counter =0
+    for(let i=0; i<arr.length; i++){
+        if(arr[i]==key){
+            counter++;
+        }
+    }
+    return counter;
+}
+
+function getUpgrade(x,y){
+    if(points>0){
+        let upgradeSelect;
+        let height = 0;
+        for(let i=0; i<imgPos.length; i++){
+            height = Math.max(height,imgPos[i]);
+        }
+        let prev =0;
+        for(let i=0; i<=height; i++){
+            for(let j=0; j<count(imgPos,i); j++){
+                if(x>canvas.width/2-((j-count(imgPos,i)/2+.5)*25)&&x<canvas.width/2-((j-count(imgPos,i)/2+.5)*25)+21&&y>i*25&&y<i*25+21){
+                    upgradeSelect = prev;
+                }
+                prev++;
+            }
+        }
+        let canGet = true;
+        for(let i=0; i<prerequisites[upgradeSelect].length; i++){
+            if(!upgradeOwned[prerequisites[upgradeSelect][i]]){
+                canGet = false;
+            }
+        }
+        if(canGet&&!upgradeOwned[upgradeSelect]){
+            upgradeOwned[upgradeSelect]=true;
+            newDesign();
+            stat[upgrades[upgradeSelect][2]]+=upgrades[upgradeSelect][1]
+            points--;
+        }else{
+            console.log("failed")
+        }
+    }
+}
 
 let game = setInterval(animate,1000/60);

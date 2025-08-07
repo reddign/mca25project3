@@ -32,16 +32,28 @@
     <canvas id="river"style="background-image: url(img/river.jpg);"  width="200"  height="600" margin="0" padding="0";></canvas>
     <canvas id="snow"style="background-image: url(img/snow.jpg);"  width="1000" height="600" margin="0" padding="0";></canvas>
     <canvas id="ice"style="background-image: url(img/iceblock.png);"  width="200" height="600" margin="0" padding="0";></canvas>
-    <canvas id="stone"style="background-image: url(img/stone.jpg);"  width="1000" height="600" margin="0" padding="0";></canvas>
+    <canvas id="stone"style="background-image: url(img/stone.jpg);"  width="1000" height="600" margin="0" padding="0";></canvas>  
+
 
     </div>
 
     <div class="canvas-row2">
-    <canvas id="kindariver"style="background-image: url(img/river.jpg);"  width="3400"  height="200" margin="0" padding="0";></canvas>
+    <canvas id="sand"style="background-image: url(img/sand.jpg);"  width="1000" height="200" margin="0" padding="0";></canvas>
+    <canvas id="kindariver"style="background-image: url(img/river.jpg);"  width="200"  height="200" margin="0" padding="0";></canvas>
+    <canvas id="ice2"style="background-image: url(img/iceblock.png);"  width="1200" height="200" margin="0" padding="0";></canvas>
+    <canvas id="bedrockborder"style="background-image: url(img/bedrock.jpg);"  width="1000" height="200" margin="0" padding="0";></canvas>
+    </div>
+
+    <div class="canvas-row3">
+            <canvas id="kindariver2"style="background-image: url(img/river.jpg);"  width="3400"  height="500" margin="0" padding="0";></canvas>
+
     </div>
 
     </body>
     <script>
+
+    
+
         //start creating houses, bridge, ect.
     function bridge(){
 
@@ -250,11 +262,58 @@
         graphics.fillRect(780,390,10,40);
         graphics.fillRect(800,390,10,40);
 
+    }
 
-
+    function ores(){
+        let canvas = document.querySelector('#stone');
+        const graphics = canvas.getContext('2d');
+        
+        //rock
+        graphics.fillStyle = 'rgb(170,170,170)';
+        graphics.fillRect(180,430,90,60);
+        graphics.fillStyle = 'rgb(160,160,160)'
+        graphics.fillRect(160,450,60,40);
+        //ore
+        graphics.fillStyle = 'rgb(100,230,165)';
+        graphics.fillRect(200,435,25,15);
+        graphics.fillRect(180,465,25,15);
+        graphics.fillRect(240,450,25,15);
+        //rock2
+        graphics.fillStyle = 'rgb(170,170,170)';
+        graphics.fillRect(660,230,90,60);
+        graphics.fillStyle = 'rgb(160,160,160)'
+        graphics.fillRect(640,250,60,40);
+        //ore2
+          graphics.fillStyle = 'red';
+        graphics.fillRect(675,235,25,15);
+        graphics.fillRect(660,260,25,15);
+        graphics.fillRect(715,265,25,15);
+        //rock3
        
+        
+    }
+
+    function minething(){
+        let canvas = document.querySelector('#stone');
+        const graphics = canvas.getContext('2d');
+
+        //entrance thing
+        graphics.fillStyle = "black";
+        graphics.fillRect(850,65,70,90);
+
+        //wooden support stuff
+        graphics.fillStyle = "brown";
+        graphics.fillRect(830,65,20,90);
+        graphics.fillRect(920,65,20,90);
+        graphics.fillRect(820,45,130,20);
+
+
+
+
+
 
     }
+
 
     bridge();
     houses();
@@ -263,6 +322,8 @@
     icestuff();
     igloo();
     tracks();
+    ores();
+    minething();
 
     </script>
 

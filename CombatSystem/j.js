@@ -187,8 +187,15 @@ function action(option) {
 
     if (monsterHealth <= 0) {
         message = "You defeated the monster!"
-        setTimeout(() => endScreen(), 1500)
-        return
+        setTimeout(() => {
+            battleActive = false;
+            canvas = mainCanvas;
+            graphics = canvas.getContext('2d');
+            mainCanvas.style.display = "block";
+            battleCanvas.style.display = "none";
+            message = "You defeated the monster!";
+        }, 1500);
+        return;
     }
 
     setTimeout(() => {

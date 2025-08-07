@@ -1,16 +1,275 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>map</title>
+
+       <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .canvas-row {
+            display: flex;
+        }
+        canvas {
+            margin: 0;
+            padding: 0;
+            border: none;
+            display: block;
+        }
+
+    .canvas-row2 {
+        display: flex;
+    }
+    </style>
 </head>
 <body>
-    
-</body>
-<canvas width="1000" height="500" style="background-color: black; width: 1000px; height: 500px;"></canvas>
+
+    <div class="canvas-row">
+    <canvas id="grass" style="background-image: url(img/grass.jpg);"  width="1000"  height="600" margin="0" padding="0";></canvas>
+    <canvas id="river"style="background-image: url(img/river.jpg);"  width="200"  height="600" margin="0" padding="0";></canvas>
+    <canvas id="snow"style="background-image: url(img/snow.jpg);"  width="1000" height="600" margin="0" padding="0";></canvas>
+    <canvas id="ice"style="background-image: url(img/iceblock.png);"  width="200" height="600" margin="0" padding="0";></canvas>
+    <canvas id="stone"style="background-image: url(img/stone.jpg);"  width="1000" height="600" margin="0" padding="0";></canvas>
+
+    </div>
+
+    <div class="canvas-row2">
+    <canvas id="kindariver"style="background-image: url(img/river.jpg);"  width="3400"  height="200" margin="0" padding="0";></canvas>
+    </div>
+
+    </body>
+    <script>
+        //start creating houses, bridge, ect.
+    function bridge(){
+
+        let canvas = document.querySelector('#river');
+        const graphics = canvas.getContext('2d');
+
+        graphics.fillStyle = "brown";
+        graphics.fillRect(0,220,20,140);
+        graphics.fillRect(25,220,20,140);
+        graphics.fillRect(50,220,20,140);
+        graphics.fillRect(75,220,20,140);
+        graphics.fillRect(100,220,20,140);
+        graphics.fillRect(125,220,20,140);
+        graphics.fillRect(150,220,20,140);
+        graphics.fillRect(175,220,20,140);
+        graphics.fillRect(200,220,20,140);
+        
+
+        graphics.fillStyle = "rgb(101,67,33)";
+        graphics.fillRect(0,200,200,20)
+        graphics.fillRect(0,360,200,20)
+
+    }
+
+    function houses(){
+        let canvas = document.querySelector('#grass');
+        const graphics = canvas.getContext('2d');  
+
+
+        let housex = Math.floor(Math.random() * (400 - 100 + 1)) + 200;
+        let housey = Math.floor(Math.random() * (310 - 300 + 1)) + 180;
+
+          let housex2 = Math.floor(Math.random() * (400 - 100 + 1)) + 500;
+          let housey2 = Math.floor(Math.random() * (400 - 300 + 1)) + 180;
+
+        graphics.fillStyle = "brown";
+        graphics.fillRect(housex, housey, 100, 100);
+
+        graphics.fillStyle = "rgb(101,67,33)";
+        graphics.fillRect(housex-5, housey, 110, -10);
+        graphics.fillRect(housex+10, housey, 80, -20);
+        graphics.fillRect(housex+25, housey, 50, -30);
+
+        graphics.fillStyle = "brown";
+        graphics.fillRect(housex2, housey2, 100, 100);
+
+        graphics.fillStyle = "rgb(101,67,33)";
+        graphics.fillRect(housex2-5, housey2, 110, -10);
+        graphics.fillRect(housex2+10, housey2, 80, -20);
+        graphics.fillRect(housex2+25, housey2, 50, -30);
+
+    }
+
+    function trees(){
+        let canvas = document.querySelector('#grass');
+        const graphics = canvas.getContext('2d');
+        
+
+        graphics.fillStyle = "rgb(101,67,33)";
+        graphics.fillRect(500,500,30,50);
+
+        graphics.fillStyle = "rgb(2,89,15)";
+        graphics.fillRect(450,460,130,40);
+        graphics.fillRect(470,430,90,40);
+        graphics.fillRect(495,400,45,40);
+
+    }
+
+    function rocks(){
+        let canvas = document.querySelector('#grass');
+        const graphics = canvas.getContext('2d');
+
+        graphics.fillStyle = 'grey';
+        graphics.fillRect(80,500,90,60);
+        graphics.fillStyle = 'rgb(169,169,169)'
+        graphics.fillRect(60,520,60,40);
+
+        graphics.fillStyle = 'grey';
+        graphics.fillRect(800,10,90,60);
+        graphics.fillStyle = 'rgb(169,169,169)'
+        graphics.fillRect(780,30,60,40);
+    }
+
+    function icestuff(){
+        let canvas = document.querySelector('#snow');
+        const graphics = canvas.getContext('2d');
+
+
+        graphics.fillStyle = "rgb(135,206,235,0.8)";
+        graphics.beginPath();
+        graphics.moveTo(600,200);
+        graphics.lineTo(640,240);
+        graphics.lineTo(635,310);
+        graphics.lineTo(565,310);
+        graphics.lineTo(555,240);
+        graphics.lineTo(600,200);
+        graphics.fill();
+        graphics.closePath();
+
+        graphics.fillStyle = "rgb(135,206,235,0.8)";
+        graphics.beginPath();
+        graphics.moveTo(150,100);
+        graphics.lineTo(190,140);
+        graphics.lineTo(185,210);
+        graphics.lineTo(115,210);
+        graphics.lineTo(105,140);
+        graphics.lineTo(150,100);
+        graphics.fill();
+        graphics.closePath();
+
+    }
+
+    function igloo(){
+
+        let canvas = document.querySelector('#snow');
+        const graphics = canvas.getContext('2d');
+
+        graphics.fillStyle = "white";
+        graphics.strokeStyle = "black";
+        graphics.beginPath();
+        graphics.arc(200,550,120,0,Math.PI, true);
+        graphics.fill();
+        graphics.stroke();
+        graphics.closePath();
+
+        graphics.fillStyle = "black";
+        graphics.fillRect(180,500,50,50);
+
+
+    }
+
+    function tracks(){
+        let canvas = document.querySelector('#stone');
+        const graphics = canvas.getContext('2d');
+
+        //wooden part
+
+        graphics.fillStyle = "brown";
+        graphics.fillRect(0,130,460,10);
+        graphics.fillRect(0,180,410,10);
+        graphics.fillRect(460,130,10,250);
+        graphics.fillRect(410,180,10,250);
+        graphics.fillRect(410,430,600,10);
+        graphics.fillRect(460,380,550,10);
+
+        //tracks
+
+        graphics.fillStyle = "rgb(55,55,55)";
+        graphics.fillRect(0,140,10,40);
+        graphics.fillRect(20,140,10,40);
+        graphics.fillRect(40,140,10,40);
+        graphics.fillRect(60,140,10,40);
+        graphics.fillRect(80,140,10,40);
+        graphics.fillRect(100,140,10,40);
+        graphics.fillRect(120,140,10,40);
+        graphics.fillRect(140,140,10,40);
+        graphics.fillRect(160,140,10,40);
+        graphics.fillRect(180,140,10,40);
+        graphics.fillRect(200,140,10,40);
+        graphics.fillRect(220,140,10,40);
+        graphics.fillRect(240,140,10,40);
+        graphics.fillRect(260,140,10,40);
+        graphics.fillRect(280,140,10,40);
+        graphics.fillRect(300,140,10,40);
+        graphics.fillRect(320,140,10,40);
+        graphics.fillRect(340,140,10,40);
+        graphics.fillRect(360,140,10,40);
+        graphics.fillRect(380,140,10,40);
+        graphics.fillRect(400,140,10,40);
+        graphics.fillRect(420,140,10,40);
+        graphics.fillRect(440,140,10,40);
+
+        
+        graphics.fillRect(420,180,40,10);
+        graphics.fillRect(420,200,40,10);
+        graphics.fillRect(420,220,40,10);
+        graphics.fillRect(420,240,40,10);
+        graphics.fillRect(420,260,40,10);
+        graphics.fillRect(420,280,40,10);
+        graphics.fillRect(420,300,40,10);
+        graphics.fillRect(420,320,40,10);
+        graphics.fillRect(420,340,40,10);
+        graphics.fillRect(420,360,40,10);
+        graphics.fillRect(420,380,40,10);
+
+       
+     
+       
+        graphics.fillRect(440,390,10,40);
+        graphics.fillRect(460,390,10,40);
+        graphics.fillRect(480,390,10,40);
+        graphics.fillRect(500,390,10,40);
+        graphics.fillRect(520,390,10,40);
+        graphics.fillRect(540,390,10,40);
+        graphics.fillRect(560,390,10,40);
+        graphics.fillRect(580,390,10,40);
+        graphics.fillRect(600,390,10,40);
+        graphics.fillRect(620,390,10,40);
+        graphics.fillRect(640,390,10,40);
+        graphics.fillRect(660,390,10,40);
+        graphics.fillRect(680,390,10,40);
+        graphics.fillRect(700,390,10,40);
+        graphics.fillRect(720,390,10,40);
+        graphics.fillRect(740,390,10,40);
+        graphics.fillRect(760,390,10,40);
+        graphics.fillRect(780,390,10,40);
+        graphics.fillRect(800,390,10,40);
+
+
+
+       
+
+    }
+
+    bridge();
+    houses();
+    trees();
+    rocks();
+    icestuff();
+    igloo();
+    tracks();
+
+    </script>
+
 <script src="j.js"></script>
 <img style="height: 0px;" src="imagessssss/knight.png" id="knight">
 <img style="height: 0px;" src="imagessssss/gob.png" id="goblin">
 
 
+</body>
 </html>

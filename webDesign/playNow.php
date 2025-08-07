@@ -39,10 +39,10 @@ session_start();
             </nav><br>
             <canvas style="background-color:#a50034; width: 1000; height: 415"
             onmousedown="press(event)"></canvas>
+            
+    <img style="height: 0px;" src="Game_images/knight.png" id="knight">
+    <img style="height: 0px;" src="Game_images/gob.png" id="goblin">
         </header>
-        <footer>
-            <p>Copyright 2025. All rights reserved.</p>
-        </footer>
     </body>
     <script src="../FinalGame/game.js"></script>
 </html>

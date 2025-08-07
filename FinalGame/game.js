@@ -256,11 +256,11 @@ function action(option) {
     if (playerHealth <= 0 || monsterHealth <= 0) return
     playersAction = false
     if (option === "1") {
-        let damage = Math.floor(Math.random() * 20) + 1 + stat[1]
+        let damage = Math.floor(Math.random() * (20+Math.floor(stat[1]*0.95)) + 1 + Math.floor(stat[1]*.05))
         monsterHealth -= damage
         message = `You attack! Monster takes ${damage} damage. Monster health: ${monsterHealth}`
     } else if (option === "2") {
-        let heal = Math.floor(Math.random() * 15) + 1 + stat[2];
+        let heal = Math.floor(Math.random() * (15+Math.floor(stat[2]*0.95))) + 1 + Math.floor(stat[2]*0.05);
         playerHealth += heal
         message = `You heal for ${heal}. Player health: ${playerHealth}`
     } else if (option === "3") {

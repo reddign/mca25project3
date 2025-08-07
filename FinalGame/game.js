@@ -50,14 +50,15 @@ function createHomePage(){
     graphics.font = "20px arial";
     graphics.fillText("Generic Medieval", canvas.width/2-75, canvas.height/2-20);
     graphics.fillText("Fighting Game", canvas.width/2-62, canvas.height/2);
+    graphics.font = "10px arial";
     
 }
 
 //Upgrades
-let stat = [0,0,0,0,0];
-let statNames = ["Health","DMG","Mana","P","P"];
-let upgradeCost = [1,1,1,1,1];
-let upgradeAmount = [1,1,1,1,1];
+let stat = [0,0,0];
+let statNames = ["Health","DMG","Mana"];
+let upgradeCost = [1,1,1];
+let upgradeAmount = [1,1,1];
 let coins = 50;
 let buttons=[];
 

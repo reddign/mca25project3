@@ -16,6 +16,7 @@ let fps = 1
 
 let knightimg = document.getElementById('knight')
 let goblinimg = document.getElementById('goblin')
+let mapimg = document.getElementById('map')
 
 movingUp = false
 movingDown = false
@@ -34,12 +35,20 @@ const moveSpeed = 1
 
 function clear(){
     if(!askedPlayAgain){
-        graphics.fillStyle = 'black'
-        graphics.fillRect(0,0,canvas.width,canvas.height)
+        // Draw map background if loaded
+        //if (mapImg && mapImg.complete && mapImg.naturalWidth !== 0) {
+            graphics.drawImage(mapImg, 0, 0, canvas.width, canvas.height);
+        //} else {
+            //graphics.fillStyle = 'white';
+            //graphics.fillRect(0, 0, canvas.width, canvas.height);
+        //}
     }
 }
 
 
+function map(){
+
+}
 
 function animate(){
     if (battleActive) {
@@ -186,14 +195,19 @@ function action(option) {
     }
 
     if (monsterHealth <= 0) {
-        message = "You defeated the monster!"
+        message = "You defeated the monster!";
         setTimeout(() => {
             battleActive = false;
-            canvas = mainCanvas;
-            graphics = canvas.getContext('2d');
             mainCanvas.style.display = "block";
             battleCanvas.style.display = "none";
-            message = "You defeated the monster!";
+            canvas = mainCanvas;
+            graphics = canvas.getContext('2d');
+            // Move enemy off screen so player doesn't instantly re-trigger battle
+            enemyX = -100;
+            enemyY = -100;
+            animate(); // Force redraw to update canvas
+            // Clear message after 1 second
+            setTimeout(() => { message = ""; }, 1000);
         }, 1500);
         return;
     }
@@ -262,6 +276,8 @@ function player(){
 function enemy(){ 
     graphics.drawImage(goblin, enemyX, enemyY, 50, 50)
 }
+// Use map image from HTML
+let mapImg = document.getElementById('map');
 // Movement for the player
 document.addEventListener("keydown", (event)=>{
     if(event.key === "ArrowUp"){

@@ -1,8 +1,10 @@
 // WARNING: This code is a work in progress and may not function as intended.
 
 
-let canvas = document.querySelector("canvas")
-const graphics = canvas.getContext('2d')
+let mainCanvas = document.getElementById("mainCanvas")
+let battleCanvas = document.getElementById("battleCanvas")
+let canvas = mainCanvas // default to mainCanvas
+let graphics = canvas.getContext('2d')
 
 
 let message = "" // Holds the current game message
@@ -38,23 +40,59 @@ function clear(){
 }
 
 
+
 function animate(){
-    clear()
-    player()
-    enemy()
-    movement()
-    checkCollision()
-    endScreen()
-    // Draw the message on the canvas
-    if (message) {
-        graphics.fillStyle = "white"
-        graphics.font = "20px Arial"
-        graphics.fillText(message, 20, 40)
+    if (battleActive) {
+        // Switch to battle canvas
+        mainCanvas.style.display = "none";
+        battleCanvas.style.display = "block";
+        canvas = battleCanvas;
+        graphics = canvas.getContext('2d');
+        clearBattle();
+        drawBattleScene();
+        endScreen();
+        if (message) {
+            graphics.fillStyle = "white";
+            graphics.font = "20px Arial";
+            graphics.fillText(message, 20, 40);
+        }
+        if (playersAction) {
+            drawActionOptions();
+        }
+    } else {
+        // Switch to main canvas
+        battleCanvas.style.display = "none";
+        mainCanvas.style.display = "block";
+        canvas = mainCanvas;
+        graphics = canvas.getContext('2d');
+        clear();
+        player();
+        enemy();
+        movement();
+        checkCollision();
+        endScreen();
+        if (message) {
+            graphics.fillStyle = "white";
+            graphics.font = "20px Arial";
+            graphics.fillText(message, 20, 40);
+        }
     }
-    // Draw action options if in battle
-    if (battleActive && playersAction) {
-        drawActionOptions()
-    }
+}
+
+function clearBattle() {
+    graphics.fillStyle = 'darkred';
+    graphics.fillRect(0,0,canvas.width,canvas.height);
+}
+
+function drawBattleScene() {
+    // Draw player and monster in battle positions
+    graphics.drawImage(knight, 200, 300, 100, 100);
+    graphics.drawImage(goblin, 700, 100, 100, 100);
+    // Draw health bars
+    graphics.fillStyle = "white";
+    graphics.font = "bold 18px Arial";
+    graphics.fillText("Player HP: " + playerHealth, 200, 280);
+    graphics.fillText("Monster HP: " + monsterHealth, 700, 90);
 }
 
 //randomly, while the player is romping around, a battle will start
@@ -148,9 +186,21 @@ function action(option) {
     }
 
     if (monsterHealth <= 0) {
-        message = "You defeated the monster!"
-        setTimeout(() => endScreen(), 1500)
-        return
+        message = "You defeated the monster!";
+        setTimeout(() => {
+            battleActive = false;
+            mainCanvas.style.display = "block";
+            battleCanvas.style.display = "none";
+            canvas = mainCanvas;
+            graphics = canvas.getContext('2d');
+            // Move enemy off screen so player doesn't instantly re-trigger battle
+            enemyX = -100;
+            enemyY = -100;
+            animate(); // Force redraw to update canvas
+            // Clear message after 1 second
+            setTimeout(() => { message = ""; }, 1000);
+        }, 1500);
+        return;
     }
 
     setTimeout(() => {
@@ -267,20 +317,22 @@ function movement(){
     }
 }
 
-// Handle mouse clicks for canvas action selection
-canvas.addEventListener("mousedown", function(event) {
-    if (!(battleActive && playersAction)) return
-    let rect = canvas.getBoundingClientRect()
-    let mouseX = event.clientX - rect.left
-    let mouseY = event.clientY - rect.top
+
+
+// Always listen for clicks on both canvases, but only process if in battle
+battleCanvas.addEventListener("mousedown", function(event) {
+    if (!(battleActive && playersAction)) return;
+    let rect = battleCanvas.getBoundingClientRect();
+    let mouseX = event.clientX - rect.left;
+    let mouseY = event.clientY - rect.top;
     for (let i = 0; i < actionRects.length; i++) {
-        let round = actionRects[i]
+        let round = actionRects[i];
         if (mouseX >= round.x && mouseX <= round.x + round.w && mouseY >= round.y && mouseY <= round.y + round.h) {
-            action(round.action)
-            break
+            action(round.action);
+            break;
         }
     }
-})
+});
 
 
 window.setInterval(animate,fps/10000)

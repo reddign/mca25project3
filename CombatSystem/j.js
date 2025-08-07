@@ -15,6 +15,8 @@ let fps = 1
 let knightimg = document.getElementById('knight')
 let goblinimg = document.getElementById('goblin')
 
+gameState = "exploration"
+
 movingUp = false
 movingDown = false
 movingLeft = false
@@ -44,6 +46,7 @@ function animate(){
     enemy()
     movement()
     checkCollision()
+    changeScene()
     endScreen()
     // Draw the message on the canvas
     if (message) {
@@ -57,8 +60,19 @@ function animate(){
     }
 }
 
-//randomly, while the player is romping around, a battle will start
-
+function changeScene(){
+    if(battleActive == true){
+        gameState = "battle"
+        newCanvas()
+    }else{
+        gameState = "exploration"
+    }
+}
+function newCanvas(){
+    context.clearRect(0, 0, canvas.width, canvas.height)
+    context.fillStyle = "black"
+    context.fillRect(0, 0, canvas.width, canvas.height)
+}
 
 function startBattle(){
     if (battleActive) return
@@ -78,7 +92,7 @@ function checkForBattle(){
 
 
 function monsterAttack(){
-    let damage = Math.floor(Math.random() * 20) + 1 // random damage between 1 and 20
+    let damage = Math.floor(Math.random() * 10) + 1 // random damage between 1 and 20
     playerHealth -= damage
     message = `Monster attacks! Player takes ${damage} damage. Player health: ${playerHealth}`
 }
@@ -99,6 +113,8 @@ function battleLoop(){
     let huh = document.getElementById("playerChoice")
     if (huh) huh.style.display = "none"
 }
+
+
 
 function drawActionOptions() {
     if (!playersAction) return

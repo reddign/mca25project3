@@ -30,6 +30,8 @@ session_start();
                         <?php if (array_key_exists("UserID", $_SESSION)){
                             if ($_SESSION["UserID"] != ""){
                             print("<a href='logout.php'>Hello, {$_SESSION['UserID']}!</a>");
+                            }else{
+                                print("<a href='login.php'>Login/Register</a>");
                             }
                         }else{
                             print("<a href='login.php'>Login/Register</a>");

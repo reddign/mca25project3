@@ -46,7 +46,6 @@ function animate(){
     enemy()
     movement()
     checkCollision()
-    changeScene()
     endScreen()
     // Draw the message on the canvas
     if (message) {
@@ -60,19 +59,6 @@ function animate(){
     }
 }
 
-function changeScene(){
-    if(battleActive == true){
-        gameState = "battle"
-        newCanvas()
-    }else{
-        gameState = "exploration"
-    }
-}
-function newCanvas(){
-    context.clearRect(0, 0, canvas.width, canvas.height)
-    context.fillStyle = "black"
-    context.fillRect(0, 0, canvas.width, canvas.height)
-}
 
 function startBattle(){
     if (battleActive) return

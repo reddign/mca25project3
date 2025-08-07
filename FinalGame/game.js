@@ -69,6 +69,7 @@ function createHomePage(){
 //Upgrades
 let stat = [0,0,0];
 let statNames = ["Health","DMG","Mana"];
+//HP: No Buff, DMG&Mana: Debuff
 let upgradeCost = [1,1,1];
 let upgradeAmount = [1,1,1];
 let coins = 50;
@@ -189,7 +190,7 @@ function startBattle(){
     if (battleActive) return
     battleActive = true
     message = "A wild monster appears!"
-    playerHealth = 100 // reset player health for the battle
+    playerHealth = 100+stat[0] // reset player health for the battle
     monsterHealth = 100 // reset monster health for the battle
     setTimeout(() => battleLoop(), 1000)
 }
@@ -255,11 +256,11 @@ function action(option) {
     if (playerHealth <= 0 || monsterHealth <= 0) return
     playersAction = false
     if (option === "1") {
-        let damage = Math.floor(Math.random() * 20) + 1
+        let damage = Math.floor(Math.random() * 20) + 1 + stat[1]
         monsterHealth -= damage
         message = `You attack! Monster takes ${damage} damage. Monster health: ${monsterHealth}`
     } else if (option === "2") {
-        let heal = Math.floor(Math.random() * 15) + 1
+        let heal = Math.floor(Math.random() * 15) + 1 + stat[2];
         playerHealth += heal
         message = `You heal for ${heal}. Player health: ${playerHealth}`
     } else if (option === "3") {

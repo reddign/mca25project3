@@ -59,6 +59,12 @@ form {
     
   }
 
+.registerText {
+    color:#a50034;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
+  
+
 footer{
     text-align: center;
     color:#666;

@@ -41,6 +41,11 @@ form {
     width: 100%;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   }
+
+  .loginText {
+    color:#a50034;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
   
   /* Add a hover effect for buttons */
   button:hover {

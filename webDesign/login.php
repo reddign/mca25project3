@@ -44,9 +44,9 @@ session_start();
         </div>
         <div class="container">
         <form id="login" method="post" action="../webDesign/processes/processLogin.php">
-        <label for="user">Username: </label>
+        <label for="user" class="loginText">Username: </label>
         <input type="text" id="user" name="user"/><br>
-        <label for="password">Password: </label>
+        <label for="password" class="loginText">Password: </label>
         <input type="password" id="password" name="password"/><br>
         <br/>
         <button onclick="login(event);">Login</button>

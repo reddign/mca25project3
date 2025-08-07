@@ -44,11 +44,11 @@ session_start();
         </div>
         <div class="container">
         <form id="login" method="post" action="../webDesign/processes/processRegister.php">
-        <label for="user">Username: </label>
+        <label for="user" class="registerText">Username: </label>
         <input type="text" id="user" name="user"/><br>
-        <label for="password">Password: </label>
+        <label for="password" class="registerText">Password: </label>
         <input type="password" id="password" name="password"/><br>
-        <label for="email">Email: </label>
+        <label for="email" class="registerText">Email: </label>
         <input type="text" id="email" name="email"/><br>
         <br/>
         <button onclick="login(event);">Register</button>

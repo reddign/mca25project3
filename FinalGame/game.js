@@ -315,6 +315,7 @@ function endScreen(){
         const x = canvas.width / 2 - graphics.measureText(text).width / 2;
         const y = canvas.height / 2;
         graphics.fillText(text, x, y);
+        upgradeOwned = [];
         if (!askedPlayAgain) {
             askedPlayAgain = true;
             setTimeout(() => {
